@@ -3,7 +3,6 @@
  */
 import YAWN = require('yawn-yaml/cjs');
 import bluebird = require('bluebird');
-export { YAWN };
 export declare function parseYAML<T = any>(text: string): {
     yaml: string;
     json: T;
@@ -27,5 +26,6 @@ export declare function readYAMLSync<T>(file: string, encoding?: string): {
     toString(): string;
     toJSON<T2 = T>(): T2;
 };
+export { YAWN };
 import * as YAML_FS from '.';
 export default YAML_FS;

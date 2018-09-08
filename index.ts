@@ -7,8 +7,6 @@ import bluebird = require('bluebird');
 import YAML from 'yaml';
 import * as fs from 'fs-extra';
 
-export { YAWN }
-
 export function parseYAML<T = any>(text: string): {
 	yaml: string,
 	json: T,
@@ -84,6 +82,8 @@ export function readYAMLSync<T>(file: string, encoding?: string)
 
 	return parseYAML<T>(data);
 }
+
+export { YAWN }
 
 import * as YAML_FS from '.';
 export default YAML_FS
