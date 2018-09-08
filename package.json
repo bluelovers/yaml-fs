@@ -1,13 +1,24 @@
 {
   "name": "yaml-fs",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "YAML File parser that preserves comments and styling",
+  "homepage": "https://github.com/bluelovers/yaml-fs#readme",
+  "bugs": {
+    "url": "https://github.com/bluelovers/yaml-fs/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluelovers/yaml-fs.git"
+  },
+  "license": "ISC",
+  "author": "",
   "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "bluebird": "^3.5.2",
     "fs-extra": "^7.0.0",

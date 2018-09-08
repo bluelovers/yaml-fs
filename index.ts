@@ -7,6 +7,11 @@ import bluebird = require('bluebird');
 import YAML from 'yaml';
 import * as fs from 'fs-extra';
 
+export interface IStringifyYAMLOptions
+{
+	disablePreserve?: boolean,
+}
+
 export function parseYAML<T = any>(text: string): {
 	yaml: string,
 	json: T,
@@ -18,17 +23,22 @@ export function parseYAML<T = any>(text: string): {
 	return new YAWN(text);
 }
 
-export function stringifyYAML(data): string
+export function stringifyYAML(data, options?: IStringifyYAMLOptions): string
 {
 	if (data instanceof YAWN)
 	{
+		if (options && options.disablePreserve)
+		{
+			return YAML.stringify(data.json);
+		}
+
 		return data.yaml;
 	}
 
 	return YAML.stringify(data);
 }
 
-export function readYAML<T>(file: string, encoding?: string)
+export function readYAML<T = any>(file: string, encoding?: string)
 {
 	return bluebird
 		.resolve(fs
@@ -40,41 +50,7 @@ export function readYAML<T>(file: string, encoding?: string)
 	;
 }
 
-export function outputYAML(file: string, data)
-{
-	return bluebird
-		.resolve(data)
-		.then(stringifyYAML)
-		.then(function (data)
-		{
-			return fs.outputFile(file, data);
-		})
-	;
-}
-
-export function writeYAML(file: string, data)
-{
-	return bluebird
-		.resolve(data)
-		.then(stringifyYAML)
-		.then(function (data)
-		{
-			return fs.writeFile(file, data);
-		})
-		;
-}
-
-export function outputYAMLSync(file: string, data)
-{
-	return fs.outputFileSync(file, stringifyYAML(data));
-}
-
-export function writeYAMLSync(file: string, data)
-{
-	return fs.writeFileSync(file, stringifyYAML(data));
-}
-
-export function readYAMLSync<T>(file: string, encoding?: string)
+export function readYAMLSync<T = any>(file: string, encoding?: string)
 {
 	let data = fs
 		.readFileSync(file, encoding || 'utf8')
@@ -83,7 +59,47 @@ export function readYAMLSync<T>(file: string, encoding?: string)
 	return parseYAML<T>(data);
 }
 
-export { YAWN }
+export function outputYAML(file: string, data, options?: IStringifyYAMLOptions)
+{
+	return bluebird
+		.resolve(data)
+		.then(function (data)
+		{
+			return stringifyYAML(data, options)
+		})
+		.then(function (data)
+		{
+			return fs.outputFile(file, data);
+		})
+	;
+}
+
+export function writeYAML(file: string, data, options?: IStringifyYAMLOptions)
+{
+	return bluebird
+		.resolve(data)
+		.then(function (data)
+		{
+			return stringifyYAML(data, options)
+		})
+		.then(function (data)
+		{
+			return fs.writeFile(file, data);
+		})
+		;
+}
+
+export function outputYAMLSync(file: string, data, options?: IStringifyYAMLOptions)
+{
+	return fs.outputFileSync(file, stringifyYAML(data, options));
+}
+
+export function writeYAMLSync(file: string, data, options?: IStringifyYAMLOptions)
+{
+	return fs.writeFileSync(file, stringifyYAML(data, options));
+}
+
+export { YAWN, YAML }
 
 import * as YAML_FS from '.';
 export default YAML_FS
