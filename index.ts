@@ -7,20 +7,23 @@ import bluebird = require('bluebird');
 import YAML from 'yaml';
 import * as fs from 'fs-extra';
 
-export interface IStringifyYAMLOptions
+export interface IParseYAML<T = any>
 {
-	disablePreserve?: boolean,
-}
-
-export function parseYAML<T = any>(text: string): {
 	yaml: string,
 	json: T,
 
 	toString(): string,
 	toJSON<T2 = T>(): T2,
 }
+
+export function parseYAML<T = any>(text: string): IParseYAML<T>
 {
-	return new YAWN(text);
+	return new YAWN<T>(text);
+}
+
+export interface IStringifyYAMLOptions
+{
+	disablePreserve?: boolean,
 }
 
 export function stringifyYAML(data, options?: IStringifyYAMLOptions): string

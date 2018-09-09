@@ -4,28 +4,19 @@
 import YAWN = require('yawn-yaml/cjs');
 import bluebird = require('bluebird');
 import YAML from 'yaml';
+export interface IParseYAML<T = any> {
+    yaml: string;
+    json: T;
+    toString(): string;
+    toJSON<T2 = T>(): T2;
+}
+export declare function parseYAML<T = any>(text: string): IParseYAML<T>;
 export interface IStringifyYAMLOptions {
     disablePreserve?: boolean;
 }
-export declare function parseYAML<T = any>(text: string): {
-    yaml: string;
-    json: T;
-    toString(): string;
-    toJSON<T2 = T>(): T2;
-};
 export declare function stringifyYAML(data: any, options?: IStringifyYAMLOptions): string;
-export declare function readYAML<T = any>(file: string, encoding?: string): bluebird<{
-    yaml: string;
-    json: T;
-    toString(): string;
-    toJSON<T2 = T>(): T2;
-}>;
-export declare function readYAMLSync<T = any>(file: string, encoding?: string): {
-    yaml: string;
-    json: T;
-    toString(): string;
-    toJSON<T2 = T>(): T2;
-};
+export declare function readYAML<T = any>(file: string, encoding?: string): bluebird<IParseYAML<T>>;
+export declare function readYAMLSync<T = any>(file: string, encoding?: string): IParseYAML<T>;
 export declare function outputYAML(file: string, data: any, options?: IStringifyYAMLOptions): bluebird<void>;
 export declare function writeYAML(file: string, data: any, options?: IStringifyYAMLOptions): bluebird<void>;
 export declare function outputYAMLSync(file: string, data: any, options?: IStringifyYAMLOptions): void;
