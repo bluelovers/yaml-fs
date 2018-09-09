@@ -6,6 +6,7 @@ import YAWN = require('yawn-yaml/cjs');
 import bluebird = require('bluebird');
 import YAML from 'yaml';
 import * as fs from 'fs-extra';
+import { crlf, chkcrlf, LF, CRLF, CR } from 'crlf-normalize';
 
 export interface IParseYAML<T = any>
 {
@@ -16,29 +17,68 @@ export interface IParseYAML<T = any>
 	toJSON<T2 = T>(): T2,
 }
 
-export function parseYAML<T = any>(text: string): IParseYAML<T>
+export function parseYAML<T = any>(text: string, options?: IParseYAMLOptions): IParseYAML<T>
 {
+	if (options)
+	{
+		if (options.disablePreserve)
+		{
+			text = YAML.stringify(YAML.parse(text));
+		}
+
+		if (options.eol)
+		{
+			let eol = ((options.eol === true) ? LF : options.eol);
+
+			text = crlf(text, eol);
+		}
+	}
+
 	return new YAWN<T>(text);
 }
 
-export interface IStringifyYAMLOptions
+export interface IYAMLOptions
 {
+	eol?: boolean | string,
 	disablePreserve?: boolean,
+}
+
+export type IParseYAMLOptions = IYAMLOptions & {
+
+}
+
+export type IStringifyYAMLOptions = IYAMLOptions & {
+
 }
 
 export function stringifyYAML(data, options?: IStringifyYAMLOptions): string
 {
+	let output: string;
+
 	if (data instanceof YAWN)
 	{
 		if (options && options.disablePreserve)
 		{
-			return YAML.stringify(data.json);
+			output = YAML.stringify(data.json);
 		}
-
-		return data.yaml;
+		else
+		{
+			output = data.yaml;
+		}
+	}
+	else
+	{
+		output = YAML.stringify(data);
 	}
 
-	return YAML.stringify(data);
+	if (options && options.eol)
+	{
+		let eol = ((options.eol === true) ? LF : options.eol);
+
+		output = crlf(output, eol);
+	}
+
+	return output;
 }
 
 export function overwriteYAML<T>(data: T, yaml: IParseYAML): IParseYAML<T>

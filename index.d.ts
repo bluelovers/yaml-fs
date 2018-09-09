@@ -10,10 +10,13 @@ export interface IParseYAML<T = any> {
     toString(): string;
     toJSON<T2 = T>(): T2;
 }
-export declare function parseYAML<T = any>(text: string): IParseYAML<T>;
-export interface IStringifyYAMLOptions {
+export declare function parseYAML<T = any>(text: string, options?: IParseYAMLOptions): IParseYAML<T>;
+export interface IYAMLOptions {
+    eol?: boolean | string;
     disablePreserve?: boolean;
 }
+export declare type IParseYAMLOptions = IYAMLOptions & {};
+export declare type IStringifyYAMLOptions = IYAMLOptions & {};
 export declare function stringifyYAML(data: any, options?: IStringifyYAMLOptions): string;
 export declare function overwriteYAML<T>(data: T, yaml: IParseYAML): IParseYAML<T>;
 export declare function readYAML<T = any>(file: string, encoding?: string): bluebird<IParseYAML<T>>;
