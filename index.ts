@@ -41,6 +41,18 @@ export function stringifyYAML(data, options?: IStringifyYAMLOptions): string
 	return YAML.stringify(data);
 }
 
+export function overwriteYAML<T>(data: T, yaml: IParseYAML): IParseYAML<T>
+{
+	if (yaml instanceof YAWN)
+	{
+		yaml.json = data;
+
+		return yaml;
+	}
+
+	throw new TypeError(`input yaml not get from parseYAML`)
+}
+
 export function readYAML<T = any>(file: string, encoding?: string)
 {
 	return bluebird

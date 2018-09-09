@@ -60,3 +60,37 @@ readYAML('.travis.yml')
 ;
 */
 ```
+
+## important
+
+every time get `data.json` will re-parse `data.yaml`
+
+so should set a var for `data.json`
+
+```ts
+let dd = data.json;
+```
+
+and if wanna update object
+
+```ts
+	dd.env = dd.env || {};
+	dd.env.global = dd.env.global || [];
+	dd.env.global.push(ret);
+
+	// now `data.json` and `data.yaml` is updated
+	// this will still preserves comments and styling
+	data.json = dd;
+```
+
+or use
+
+```ts
+	let dd = data.json;
+
+	dd.env = dd.env || {};
+	dd.env.global = dd.env.global || [];
+	dd.env.global.push(ret);
+
+	return overwriteYAML(dd, data);
+```

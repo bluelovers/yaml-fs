@@ -15,6 +15,7 @@ export interface IStringifyYAMLOptions {
     disablePreserve?: boolean;
 }
 export declare function stringifyYAML(data: any, options?: IStringifyYAMLOptions): string;
+export declare function overwriteYAML<T>(data: T, yaml: IParseYAML): IParseYAML<T>;
 export declare function readYAML<T = any>(file: string, encoding?: string): bluebird<IParseYAML<T>>;
 export declare function readYAMLSync<T = any>(file: string, encoding?: string): IParseYAML<T>;
 export declare function outputYAML(file: string, data: any, options?: IStringifyYAMLOptions): bluebird<void>;

@@ -1,6 +1,6 @@
 {
   "name": "yaml-fs",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "YAML File parser that preserves comments and styling",
   "homepage": "https://github.com/bluelovers/yaml-fs#readme",
   "bugs": {

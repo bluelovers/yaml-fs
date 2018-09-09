@@ -23,6 +23,14 @@ function stringifyYAML(data, options) {
     return yaml_1.default.stringify(data);
 }
 exports.stringifyYAML = stringifyYAML;
+function overwriteYAML(data, yaml) {
+    if (yaml instanceof YAWN) {
+        yaml.json = data;
+        return yaml;
+    }
+    throw new TypeError(`input yaml not get from parseYAML`);
+}
+exports.overwriteYAML = overwriteYAML;
 function readYAML(file, encoding) {
     return bluebird
         .resolve(fs
